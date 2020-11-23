@@ -1,0 +1,18 @@
+* {
+  box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
+}
+
+.todo {
+  margin: 10px 0;
+}
+
+.todo span {
+  margin-right: 10px;
+}
+.todo form {
+  display: inline-block;
+}
