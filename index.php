@@ -33,7 +33,7 @@ unset($_SESSION['message']);
   <ul class="todo_list">
     <?php foreach ($todos as $item) : ?>
       <li class="todo">
-        <span><?= $item['name'] ?></span>
+        <span id="todoName"><?= $item['name'] ?></span>
         <form action="update_item.php" method="post" class="todo__update_form" style="display: none;">
           <input type="hidden" name="id" value="<?= $item['id'] ?>">
           <input type="submit" value="Save">
@@ -46,6 +46,31 @@ unset($_SESSION['message']);
       </li>
     <?php endforeach; ?>
   </ul>
+
+  <script>
+    const toggleInput = (e) => {
+      var item = e.target;
+      var itemText = item.innerText;
+      var parent = item.parentNode;
+
+      if (item.nodeName === 'SPAN') {
+        var input = document.createElement('input');
+        input.value = itemText;
+        var span = parent.querySelector('#todoName');
+        parent.insertBefore(span, input);
+        parent.removeChild(span);
+      }
+
+      // console.dir(item)
+
+
+      // console.dir(parent);
+    }
+
+
+    let todoNames = document.querySelectorAll('#todoName');
+    todoNames.forEach(t => t.addEventListener('click', toggleInput));
+  </script>
 
 </body>
 
