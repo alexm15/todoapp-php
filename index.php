@@ -7,8 +7,8 @@ $stmt->execute();
 $todos = $stmt->fetchAll();
 $stmt->closeCursor();
 
-
 $message = (!empty($_SESSION['message'])) ? $_SESSION['message'] : $_SESSION['dbConnection'];
+unset($_SESSION['message']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
