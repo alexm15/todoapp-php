@@ -22,3 +22,7 @@ ul {
 .todo__update_field {
   padding: 5px;
 }
+
+.todo__update_form {
+  display: none;
+}

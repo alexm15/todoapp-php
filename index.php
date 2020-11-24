@@ -34,14 +34,10 @@ unset($_SESSION['message']);
     <?php foreach ($todos as $item) : ?>
       <li class="todo">
         <span id="todoName"><?= $item['name'] ?></span>
-        <form action="update_item.php" method="post" class="todo__update_form" style="display: none;">
-          <input type="hidden" name="id" value="<?= $item['id'] ?>">
-          <input type="hidden" name="name" value="<?= $item['name'] ?>">
-          <input type="submit" value="Save">
-        </form>
         <form action="delete_item.php" method="post" class="todo__delete_form">
           <input type="hidden" name="id" value="<?= $item['id'] ?>">
-          <input type="hidden" name="name" value="<?= $item['name'] ?>">
+          <input type="hidden" name="name" value="" class="todo_name_input">
+          <input type="submit" value="Save" formaction="update_item.php" class="todo__update_form">
           <input type="submit" value="Delete">
         </form>
       </li>
@@ -60,23 +56,30 @@ unset($_SESSION['message']);
         input.style.width = (item.offsetWidth + 20) + "px";
 
         parent.insertBefore(input, item);
-        parent.removeChild(item);
+        item.style.display = "none";
+
 
         input.select();
         parent.querySelector(".todo__update_form").style.display = 'inline-block';
 
         input.onblur = function() {
           item.innerText = input.value;
-          parent.insertBefore(item, input);
+          item.style.display = 'inline-block';
           parent.removeChild(input);
         }
-
       }
+    }
+
+    const updateName = (e) => {
+      let todoSpan = e.target;
+      todoSpan.parentElement.querySelector('.todo_name_input').value = todoSpan.innerText;
+      console.log(todoSpan.parentElement.querySelector('.todo_name_input').value);
     }
 
 
     let todoNames = document.querySelectorAll('#todoName');
     todoNames.forEach(t => t.addEventListener('click', toggleInput));
+    todoNames.forEach(t => t.addEventListener('DOMSubtreeModified', updateName));
 
     document.querySelector('.todo__update_form').addEventListener('click', e => {
       e.target.style.display = 'none';

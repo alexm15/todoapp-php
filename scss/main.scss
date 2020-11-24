@@ -12,11 +12,16 @@ ul {
     span {
         margin-right: 10px;
     }
+
     form {
         display: inline-block;
     }
 
     &__update_field {
         padding: 5px;
+    }
+
+    &__update_form {
+        display: none;
     }
 }
