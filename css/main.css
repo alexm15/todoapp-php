@@ -1,5 +1,6 @@
 * {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 ul {
@@ -13,6 +14,11 @@ ul {
 .todo span {
   margin-right: 10px;
 }
+
 .todo form {
   display: inline-block;
+}
+
+.todo__update_field {
+  padding: 5px;
 }

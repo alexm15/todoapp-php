@@ -1,0 +1,22 @@
+* {
+    box-sizing: border-box;
+}
+
+ul {
+    list-style: none;
+}
+
+.todo {
+    margin: 10px 0;
+
+    span {
+        margin-right: 10px;
+    }
+    form {
+        display: inline-block;
+    }
+
+    &__update_field {
+        padding: 5px;
+    }
+}
