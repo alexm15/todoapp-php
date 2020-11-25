@@ -3,8 +3,13 @@
 session_start();
 require './dbconnect.php';
 
-$todoName = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-$id = $_POST['id'] ?? false;
+// $todoName = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+// $id = $_POST['id'] ?? false;
+
+$completed = $_POST['todo_completed'];
+echo $completed;
+exit;
+
 if ($todoName != false && $id != false) {
     $stmt = $conn->prepare('UPDATE todo_items SET name=:name WHERE id = :id');
     $stmt->bindValue(':id', $id);

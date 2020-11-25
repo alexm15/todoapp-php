@@ -33,9 +33,10 @@ unset($_SESSION['message']);
   <ul class="todo_list">
     <?php foreach ($todos as $item) : ?>
       <li class="todo">
-        <span id="todoName"><?= $item['name'] ?></span>
         <form action="delete_item.php" method="post" class="todo__delete_form">
-          <input type="hidden" name="id" value="<?= $item['id'] ?>">
+          <input type="checkbox" name="todo_completed" id="todo_completed" class="todo_completed" <?= ($item['completed'] != false) ? 'checked' : '' ?>>
+          <span id="todoName"><?= $item['name'] ?></span>
+          <input type="hidden" name="id" value="<?= $item['id'] ?>" class="todo_id">
           <input type="hidden" name="name" value="" class="todo_name_input">
           <input type="submit" value="Save" formaction="update_item.php" class="todo__update_form">
           <input type="submit" value="Delete">
@@ -84,6 +85,56 @@ unset($_SESSION['message']);
     document.querySelector('.todo__update_form').addEventListener('click', e => {
       e.target.style.display = 'none';
     });
+
+
+    const ajax = (type = 'GET', url, options = {}, data, callback) => {
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          callback(this.responseText);
+        }
+      };
+      xmlhttp.open(type, url, true);
+      for (const [header, value] in options) {
+        xmlhttp.setRequestHeader(header, value);
+      }
+      xmlhttp.send(data);
+    }
+
+
+    document.querySelectorAll('.todo_completed').forEach(t => t.addEventListener('change', e => {
+      let checkbox = e.target;
+      let todoItem = checkbox.parentElement
+      let todoNameSpan = todoItem.querySelector('#todoName');
+      if (checkbox.checked) {
+        todoNameSpan.style.textDecoration = 'line-through';
+
+        let options = {
+          "Content-type": 'application/x-www-form-urlencoded'
+        }
+        let todoName = todoNameSpan.innerText;
+        let todoId = todoItem.querySelector('.todo_id').value
+        let completed = checkbox.checked;
+        let data = `name=${todoName}&id=${todoId}&todo_completed=${completed}`;
+
+        ajax("POST", './update_item.php', options, data, result => {
+          console.log(result)
+        });
+        // var xmlhttp = new XMLHttpRequest();
+        // xmlhttp.onreadystatechange = function() {
+        //   if (this.readyState == 4 && this.status == 200) {
+        //     // document.getElementById("txtHint").innerHTML = this.responseText;
+        //   }
+        // };
+        // xmlhttp.open("POST", "./update_item.php", true);
+        // xmlhttp.set
+        // let data = `todo_completed=${checkbox.checked}&id`
+        // xmlhttp.send();
+
+      } else {
+        todoNameSpan.style.textDecoration = 'none';
+      }
+    }));
   </script>
 
 </body>
